@@ -1,0 +1,72 @@
+<html>
+
+    <!--<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.3.1.min.js"></script>-->
+
+    {% load staticfiles %}
+    <script type="text/javascript" src="{%static 'jquery-3.3.1.min.js'  %}"></script>
+
+  <script>
+    $(document).on("change", "#id_product_id", function() {
+        console.log( $(this).val() );
+
+        var selectedproduct = $('#id_product_id').val();
+        alert (selectedproduct);
+
+    });
+
+/*    $('#id_booking_id').change(function () {
+        console.log( $(this).val() );
+
+        var selectedproduct = $('#id_booking_id').val();
+        alert (selectedproduct);
+
+    });*/
+  </script>
+
+
+<h2>Category Menu</h2>
+    <form method="POST" class="category-form">{% csrf_token %}
+        {{ form_category.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+<h2>******************************</h2>
+
+<h2>Sub-Category Menu</h2>
+    <form method="POST" class="subcategory-form">{% csrf_token %}
+        {{ form_sub_category.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+<h2>******************************</h2>
+
+<h2>Charge-Category Menu</h2>
+    <form method="POST" class="chargecategory-form">{% csrf_token %}
+        {{ form_charge_category.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+<h2>******************************</h2>
+
+<h2>Product Menu</h2>
+    <form method="POST" class="product-form">{% csrf_token %}
+        {{ form_product.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+<h2>******************************</h2>
+
+<h2>Product Price Menu</h2>
+    <form method="POST" class="product-form">{% csrf_token %}
+        {{ form_product_price.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+<h2>******************************</h2>
+
+<h2>Booking Menu</h2>
+    <form method="POST" class="booking-form">{% csrf_token %}
+        {{ form_booking.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+<h2>******************************</h2>
+
+
+
+
+</html>

@@ -1,0 +1,5 @@
+https://stackoverflow.com/questions/48716346/django-cart-and-item-model-getting-quantity-to-update
+
+https://www.revsys.com/tidbits/tips-using-djangos-manytomanyfield/
+
+https://stackoverflow.com/questions/11178875/django-forms-validate-or-autofill-field-based-on-value-other-field
