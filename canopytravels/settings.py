@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'canopyapp',
     'customer',
+    'product',
+    'order',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +133,5 @@ MEDIA_ROOT = u'/home/canopytravels/canopytravels/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = u'/home/canopytravels/canopytravels/static'
 STATIC_URL = '/static/'
+
+CART_SESSION_ID = 'cart'

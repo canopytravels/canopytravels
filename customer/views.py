@@ -6,6 +6,9 @@ from customer.models import Customer
 from django.http import HttpResponse
 from .forms import LoginForm, VerifyOtpForm, RegisterCustomerForm
 
+#for decorators
+from django.views.decorators.http import require_http_methods
+
 #for sending OTP
 import http.client
 import json
@@ -59,38 +62,45 @@ def user_login(request):
 #VERFITY OTP IMPLEMENTATION
 def verify_login(request):
     phone = request.session.get('phone_number')
-    if request.method == 'POST':
-        form = VerifyOtpForm(request.POST)
-        if form.is_valid():
-            otp = request.POST.get('otp_input')
-            #otp_data = verify_otp(phone, otp)
-            otp_data = {'type':'success'}
-            if otp_data['type']=='success':
-                if customer_exists(phone):
-                    return HttpResponse('Customer already exists')
+    if phone != None:
+        if request.method == 'POST':
+            form = VerifyOtpForm(request.POST)
+            if form.is_valid():
+                otp = request.POST.get('otp_input')
+                #otp_data = verify_otp(phone, otp)
+                otp_data = {'type':'success'}
+                if otp_data['type']=='success':
+                    if customer_exists(phone):
+                        return HttpResponse('Customer already exists')
+                    else:
+                        return redirect('register_customer')
                 else:
-                    return redirect('register_customer')
-            else:
-                return HttpResponse('Invalid OTP')
+                    return HttpResponse('Invalid OTP')
+        else:
+            form = VerifyOtpForm()
+        return render(request, 'verifyotp.html', {'form': form})
     else:
-        form = VerifyOtpForm()
-    return render(request, 'verifyotp.html', {'form': form})
+        return redirect('login')
 
 
 #REGISTRATION FORM IMPLEMENTATION
+#@require_http_methods(["POST"])
 def register_customer(request):
     phone = request.session.get('phone_number')
-    if request.method == 'POST':
-        form = RegisterCustomerForm(request.POST)
-        if form.is_valid():
-            customer = form.save(commit=False)
-            customer.save()
-            html = "<h1>Success</h1>"
-            return HttpResponse(html)
+    if phone != None:
+        if request.method == 'POST':
+            form = RegisterCustomerForm(request.POST)
+            if form.is_valid():
+                customer = form.save(commit=False)
+                customer.save()
+                html = "<h1>Success</h1>"
+                return HttpResponse(html)
+        else:
+            data = {'customer_phone': phone}
+            form = RegisterCustomerForm(initial=data)
+        return render(request, 'register_customer.html', {'form': form})
     else:
-        data = {'customer_phone': phone}
-        form = RegisterCustomerForm(initial=data)
-    return render(request, 'register_customer.html', {'form': form})
+        return redirect('login')
 
 
 
