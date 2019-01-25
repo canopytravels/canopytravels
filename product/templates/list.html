@@ -1,20 +1,31 @@
 <html>
+
+    <Button onclick="location.href='{% url 'check_login' %}'">Book</Button>
     <h1> Products Page</h1>
-    <!--{% for ip in products %}-->
-    <!--    <p>Product ID: {{ip.pk}}</p>-->
-    <!--    <p>Product Name: {{ip.product_name}}</p>-->
-    <!--    {% if ip.product_image %}-->
-    <!--        <p>Product Image: {{ip.product_image.url}}</p>-->
-    <!--    {% endif %}-->
-    <!--    <p>Product Description: {{ip.product_description}}</p>-->
+    {% for ip in products %}
+        <p>Product ID: {{ip.pk}}</p>
+        <p>Product Name: {{ip.name}}</p>
+        {% if ip.image %}
+            <p>Product Image: {{ip.image.url}}</p>
+        {% endif %}
+        <p>Product Description: {{ip.description}}</p>
 
-    <!--    <p>Stocks: {{ip.stocks.net_quantity}}</p>-->
+        <p>Available: {{ip.stocks.net_quantity}}</p>
 
-    <!--    <p>Charges: {{ip.pid.charge}}</t></p>-->
+        <p> <b>Prices</b></h1>
+        <p>Price per hour: {{ip.price_hour}}</p>
+        <p>Price per day: {{ip.price_day}}</p>
+        <p>Price per week: {{ip.price_weekly}}</p>
 
-    <!--    <p>***************</p>-->
-    <!--    <br>-->
-    <!--{% endfor %}-->
+        <form action="{% url "cart:cart_add" ip.id %}" method="post">
+            {{ cart_product_form }}
+            {% csrf_token %}
+            <input type="submit" value="Add to cart">
+        </form>
+
+        <p>***************</p>
+        <br>
+    {% endfor %}
 
 
 

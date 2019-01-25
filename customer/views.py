@@ -13,6 +13,7 @@ from django.views.decorators.http import require_http_methods
 import http.client
 import json
 
+#************SELF DECLARED UTILITY METHODS****************
 # OTP SEND METHOD
 def send_otp(mobile):
     conn = http.client.HTTPConnection("api.msg91.com")
@@ -39,6 +40,17 @@ def verify_otp(mobile, otp):
 #check customer exists method
 def customer_exists(mobile):
     return Customer.objects.filter(customer_phone=mobile).exists()
+
+#SAVE logged in users instance
+def save_loggedIn():
+    request.session['loggedIn'] = "True"
+
+#check user is logged in or not
+def is_loggedIn():
+    return request.session.get('loggedIn')
+
+
+#**********************END************************************
 
 #LOGIN IMPLEMENTATION
 def user_login(request):
@@ -71,6 +83,7 @@ def verify_login(request):
                 otp_data = {'type':'success'}
                 if otp_data['type']=='success':
                     if customer_exists(phone):
+                        request.session['loggedIn'] = "True"
                         return HttpResponse('Customer already exists')
                     else:
                         return redirect('register_customer')
@@ -93,6 +106,7 @@ def register_customer(request):
             if form.is_valid():
                 customer = form.save(commit=False)
                 customer.save()
+                request.session['loggedIn'] = "True"
                 html = "<h1>Success</h1>"
                 return HttpResponse(html)
         else:

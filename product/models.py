@@ -1,10 +1,16 @@
 from django.db import models
+from django.urls import reverse
+
 
 # Category Model
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=100,
                             unique=True)
+
+    def get_absolute_url(self):
+        return reverse('product_list_by_category',
+                       args=[self.slug])
 
     def __unicode__(self):
         return u"%s" % (self.category_name)
@@ -43,6 +49,10 @@ class Product(models.Model):
     price_week = models.DecimalField(max_digits=8, decimal_places=2, null=True)
     available = models.BooleanField()
     created_at = models.DateTimeField(auto_now=True)
+
+    def get_absolute_url(self):
+        return reverse('product_detail',
+                       args=[self.id, self.slug])
 
     def __str__(self):
         return self.name
