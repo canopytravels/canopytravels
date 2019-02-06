@@ -20,7 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('canopyapp.urls')),
     path('cart/', include('cart.urls', namespace='cart')),
-    path('', include('customer.urls')),
+    path('', include('customer.urls', namespace='customer')),
     path('', include('product.urls')),
-    path('', include('order.urls')),
+    path('orders/', include('order.urls', namespace='orders')),
 ]

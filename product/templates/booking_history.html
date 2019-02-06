@@ -1,0 +1,17 @@
+<h4>WElcome to Booking History.</h4>
+
+    <h1> Bookings History Page</h1>
+    {% for order in bookings %}
+        <p>Order ID: {{order.pk}}</p>
+        <p>Order Date: {{order.created_at}}</p>
+
+        {% for items in order.order_orderitems.all %}
+                                                    <li>
+                                                        {{items.id}}
+                                                        {{items.product.name}}
+                                                    </li>
+        {% endfor %}
+
+        <p>***************</p>
+        <br>
+    {% endfor %}

@@ -1,5 +1,7 @@
 
   <h1>Your shopping cart</h1>
+
+
   <table class="cart">
     <thead>
       <tr>
@@ -9,6 +11,9 @@
         <th>Remove</th>
         <th>Unit price</th>
         <th>Price</th>
+        <th>Pickup</th>
+        <th>Drop</th>
+        <th>BookType</th>
       </tr>
     </thead>
     <tbody>
@@ -16,16 +21,18 @@
         {% with product=item.product %}
           <tr>
             <td>
-              <a href="{{ product.get_absolute_url }}">
+              <a href={{ product.get_absolute_url }}>
 
               </a>
             </td>
             <td>{{ product.name }}</td>
             <td>{{ item.quantity }}</td>
-            <td><a href="{% url "cart:cart_remove" product.id
-            %}">Remove</a></td>
+            <td><a href="{% url "cart:cart_remove" product.id %}">Remove</a></td>
             <td class="num">${{ item.price }}</td>
             <td class="num">${{ item.total_price }}</td>
+            <td> <input type="text" name="pickupdatetime" value={{item.pickup}}> </td>
+            <td> <input type="text" name="dropdatetime" value={{item.drop}}></td>
+            <td>{{item.order_type}}</td>
           </tr>
         {% endwith %}
       {% endfor %}
@@ -39,5 +46,5 @@
   <p class="text-right">
     <a href="{% url "product_list" %}" class="button
     light">Continue shopping</a>
-    <a href="#" class="button">Checkout</a>
+    <a href="{% url "orders:create"%}" class="button">Checkout</a>
   </p>

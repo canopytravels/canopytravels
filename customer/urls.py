@@ -1,6 +1,8 @@
 from django.urls import path
 from customer import views
 
+app_name = "customer"
+
 urlpatterns = [
     path('login', views.user_login, name='login'),
     path('verifyotp', views.verify_login, name='verifyotp'),

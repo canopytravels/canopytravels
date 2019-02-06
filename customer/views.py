@@ -62,7 +62,7 @@ def user_login(request):
             #otp_data = send_otp(phone_number)
             otp_data = {'type':'success'}
             if otp_data['type']=='success':
-                return redirect('verifyotp')
+                return redirect('customer:verifyotp')
                 #return HttpResponse('Enter OTP: '+phone_number+'session: '+request.session.get('phone_number'))
                 #return render(request, 'verifyotp.html', {})
             else:
@@ -84,16 +84,21 @@ def verify_login(request):
                 if otp_data['type']=='success':
                     if customer_exists(phone):
                         request.session['loggedIn'] = "True"
-                        return HttpResponse('Customer already exists')
+                        from_cart = request.session.get('from_cart')
+                        #from_cart =True
+                        if from_cart:
+                            return redirect('orders:create')
+                        else:
+                            return HttpResponse('GOTO HOME PAGE')
                     else:
-                        return redirect('register_customer')
+                        return redirect('customer:register_customer')
                 else:
                     return HttpResponse('Invalid OTP')
         else:
             form = VerifyOtpForm()
         return render(request, 'verifyotp.html', {'form': form})
     else:
-        return redirect('login')
+        return redirect('customer:login')
 
 
 #REGISTRATION FORM IMPLEMENTATION
@@ -107,14 +112,18 @@ def register_customer(request):
                 customer = form.save(commit=False)
                 customer.save()
                 request.session['loggedIn'] = "True"
-                html = "<h1>Success</h1>"
-                return HttpResponse(html)
+                from_cart = request.session.get('from_cart')
+                if from_cart:
+                    return redirect('orders:create')
+                else:
+                    return HttpResponse('GOTO HOME PAGE')
+
         else:
             data = {'customer_phone': phone}
             form = RegisterCustomerForm(initial=data)
         return render(request, 'register_customer.html', {'form': form})
     else:
-        return redirect('login')
+        return redirect('customer:login')
 
 
 
