@@ -25,13 +25,12 @@ SECRET_KEY = '4j7ey=fn8+rn=(ji43x@=ir!qc711n&5=309h14xvxq#kch%99'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'canopytravels.pythonanywhere.com']
+ALLOWED_HOSTS = [u'canopytravels.pythonanywhere.com', u'www.canopytravels.com', u'canopytravels.com']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,6 +41,7 @@ INSTALLED_APPS = [
     'product',
     'order',
     'cart',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +69,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'cart.context_processors.cart',
             ],
+            'libraries': {
+                'common_utils': 'product.templatetags.utils',
+            },
         },
     },
 ]

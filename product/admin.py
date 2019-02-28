@@ -5,6 +5,19 @@ from django.contrib.auth.models import User, Group
 from product.models import Category, SubCategory, Product, Stocks, Maintenance
 
 
+#for multiple admin site
+from django.contrib.admin import AdminSite
+
+class SuperAdminSite(AdminSite):
+    # site_header = "UMSRA Events Admin"
+    # site_title = "UMSRA Events Admin Portal"
+    # index_title = "Welcome to UMSRA Researcher Events Portal"
+    pass
+
+super_admin_site = SuperAdminSite(name='super_admin')
+# super_admin_site.register(User)
+#end
+
 
 admin.site.unregister(User)
 admin.site.unregister(Group)

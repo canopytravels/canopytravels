@@ -16,7 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from product.admin import super_admin_site
+
 urlpatterns = [
+    path('super-admin/', super_admin_site.urls),
     path('admin/', admin.site.urls),
     path('', include('canopyapp.urls')),
     path('cart/', include('cart.urls', namespace='cart')),

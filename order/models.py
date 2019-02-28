@@ -2,13 +2,16 @@ from django.db import models
 from customer.models import Customer
 from product.models import Product
 
+
 #New models
 class Order(models.Model):
     customer = models.ForeignKey(Customer, null=True, on_delete=models.CASCADE, related_name="customer_orders")
     count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
     status = models.CharField(max_length=20, default="booked")
+    read = models.BooleanField(default=False)
 
     # def __str__(self):
     #     return "User: {} has {} items in their cart. Their total is ${}".format(self.customer, self.count, self.total)
@@ -21,9 +24,6 @@ class Order(models.Model):
 
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.order_orderitems.all())
-
-
-
 
 class OrderItem(models.Model):
     DEFAULT = 'DF'

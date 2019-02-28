@@ -9,6 +9,8 @@ from customer.models import Customer
 from order.models import Order, OrderItem
 
 
+
+
 # Create your views here.
 # def products(request):
 #     return HttpResponse('Welcome to Product Page')
@@ -89,9 +91,7 @@ def booking_history(request):
 
         customer = Customer.objects.get(customer_phone=phone_number)
         orders = customer.customer_orders.all()
-        for order_id in orders:
-            order = Order.objects.get(id=order_id.id)
-            order_items = order.order_orderitems.all()
+
         return render(request, 'booking_history.html', {'bookings': orders})
 
         # return HttpResponse('BOOKING HISTORY:'+order_items.count())

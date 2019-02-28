@@ -4,4 +4,4 @@ from customer.models import Customer
 
 admin.site.register(Customer)
 
-admin.site.site_header = 'CanopyTravels administration'
+# admin.site.site_header = 'CanopyTravels administration'

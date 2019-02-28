@@ -13,6 +13,9 @@ from django.views.decorators.http import require_http_methods
 import http.client
 import json
 
+#for alert message
+from django.contrib import messages
+
 #************SELF DECLARED UTILITY METHODS****************
 # OTP SEND METHOD
 def send_otp(mobile):
@@ -54,22 +57,31 @@ def is_loggedIn():
 
 #LOGIN IMPLEMENTATION
 def user_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            phone_number = request.POST.get('phone_number')
-            request.session['phone_number'] = phone_number
-            #otp_data = send_otp(phone_number)
-            otp_data = {'type':'success'}
-            if otp_data['type']=='success':
-                return redirect('customer:verifyotp')
-                #return HttpResponse('Enter OTP: '+phone_number+'session: '+request.session.get('phone_number'))
-                #return render(request, 'verifyotp.html', {})
-            else:
-                return HttpResponse('Invalid login')
+    phone = request.session.get('phone_number')
+    if phone == None:
+        if request.method == 'POST':
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                phone_number = request.POST.get('phone_number')
+                request.session['phone_number'] = phone_number
+                #otp_data = send_otp(phone_number)
+                otp_data = {'type':'success'}
+                if otp_data['type']=='success':
+                    return redirect('customer:verifyotp')
+                    #return HttpResponse('Enter OTP: '+phone_number+'session: '+request.session.get('phone_number'))
+                    #return render(request, 'verifyotp.html', {})
+                else:
+                    return HttpResponse('Invalid login')
+        else:
+            form = LoginForm()
+        return render(request, 'login.html', {'form': form})
+
     else:
-        form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+        return redirect('product_list')
+        # FOR DISPLAYING ALERT MESSAGE
+        # messages.info(request, 'You are Already LoggedIn!')
+        ##
+
 
 #VERFITY OTP IMPLEMENTATION
 def verify_login(request):
@@ -124,6 +136,21 @@ def register_customer(request):
         return render(request, 'register_customer.html', {'form': form})
     else:
         return redirect('customer:login')
+
+
+#LOG OUT IMPLEMENTATION
+def logout(request):
+    phone = request.session.get('phone_number')
+    is_loggedIn = request.session.get('loggedIn')
+    if is_loggedIn != None and phone != None:
+        del request.session['phone_number']
+        del request.session['loggedIn']
+        request.session.modified = True
+
+        return redirect('customer:login')
+    else:
+        return redirect('customer:login')
+
 
 
 

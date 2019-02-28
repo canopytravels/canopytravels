@@ -56,6 +56,10 @@
 
     <Button onclick="location.href='{% url 'booking_history' %}'">Booking History</Button>
 
+    <Button onclick="location.href='{% url 'customer:login' %}'"> Login</Button>
+
+    <Button onclick="location.href='{% url 'customer:logout' %}'"> Logout</Button>
+
     <h1> Products Page</h1>
     {% for ip in products %}
         <p>Product ID: {{ip.pk}}</p>
