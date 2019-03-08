@@ -1,3 +1,5 @@
+from datetime import datetime
+from decimal import Decimal
 from django.db import models
 from customer.models import Customer
 from product.models import Product
@@ -25,6 +27,8 @@ class Order(models.Model):
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.order_orderitems.all())
 
+    total_cost = property(get_total_cost)
+
 class OrderItem(models.Model):
     DEFAULT = 'DF'
     HOURLY = 'HR'
@@ -44,16 +48,46 @@ class OrderItem(models.Model):
 
     product = models.ForeignKey(Product, null=True, on_delete='CASCADE', related_name="product_orderitems")
     order = models.ForeignKey(Order, null=True, on_delete='CASCADE', related_name="order_orderitems")
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
     pickupdatetime = models.DateTimeField()
     dropdatetime = models.DateTimeField()
 
+    #calculate duration
+    # elif order_type == 'HR':
+    #     duration = duration_diff.seconds/3600
+    # elif order_type == 'WK':
+    #     duration = duration_diff.days/7
+    #end of calculation
+
     def __str__(self):
         return '{}'.format(self.id)
 
+    # custom property method for calculating duration
+    def get_duration(self):
+        start_date_str = self.pickupdatetime.strftime("%Y-%m-%d %H:%M")
+        end_date_str = self.dropdatetime.strftime("%Y-%m-%d %H:%M")
+
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d %H:%M")
+        end_date = datetime.strptime(end_date_str, "%Y-%m-%d %H:%M")
+        duration_diff = end_date - start_date
+
+        if self.order_type == 'HR':
+            duration = duration_diff.seconds/3600
+        elif self.order_type == 'DY':
+            duration = duration_diff.days
+        elif self.order_type == 'WK':
+            duration = duration_diff.days/7
+        else:
+            duration = 0
+        return duration
+
     def get_cost(self):
-        return self.price * self.quantity
+        return Decimal(self.price) * Decimal(self.quantity) * Decimal(self.get_duration())
+
+    #property fields for displaying in the Admin panel
+    cost = property(get_cost)
+    duration = property(get_duration)
 
 
 # @receiver(post_save, sender=Entry)

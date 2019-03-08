@@ -1,3 +1,4 @@
+from datetime import datetime
 from decimal import Decimal
 from django.conf import settings
 from product.models import Product
@@ -19,9 +20,24 @@ class Cart(object):
         """
         Add a product to the cart or update its quantity.
         """
+
+        #calculate duratin
+        start_date = datetime.strptime(pickup, "%Y-%m-%d %H:%M")
+        end_date = datetime.strptime(drop, "%Y-%m-%d %H:%M")
+        duration = end_date-start_date
+
+        #end of calculation
+
         product_id = str(product.id)
         if product_id not in self.cart:
-            self.cart[product_id] = {'quantity': 0, 'price': str(product.price_hour), 'order_type':order_type, 'pickup':pickup, 'drop':drop}
+            if order_type == 'HR':
+                self.cart[product_id] = {'quantity': 0, 'price': str(product.price_hour), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.seconds/3600}
+            elif order_type == 'DY':
+                self.cart[product_id] = {'quantity': 0, 'price': str(product.price_day), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.days}
+            elif order_type == 'WK':
+                self.cart[product_id] = {'quantity': 0, 'price': str(product.price_week), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.days/7}
+            else:
+                self.cart[product_id] = {'quantity': 0, 'price': str(product.price_hour), 'order_type':order_type, 'pickup':pickup, 'drop':drop}
         if update_quantity:
             self.cart[product_id]['quantity'] = quantity
         else:
@@ -81,7 +97,7 @@ class Cart(object):
         return sum(item['quantity'] for item in self.cart.values())
 
     def get_total_price(self):
-        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+        return sum(Decimal(item['price']) * item['quantity'] * Decimal(item['duration']) for item in self.cart.values())
 
     def clear(self):
         # remove cart from session

@@ -15,8 +15,23 @@ from order.models import Order, OrderItem
 # def products(request):
 #     return HttpResponse('Welcome to Product Page')
 
+# def search(request):
+#     form = ProductSearchForm(request.POST)
+#     if form.is_valid():
+#         order_type = form.cleaned_data['order_type']
+#         pickup = request.POST.get('pickup')
+#         drop = request.POST.get('drop')
+#         request.session['order_type'] = order_type
+#         request.session['pickup'] = pickup
+#         request.session['drop'] = drop
+#         # return HttpResponse('Working: '+order_type)
+#         return redirect('product_list')
+#     else:
+#         product_search_form = ProductSearchForm()
+#     return render(request, 'search_page.html', {'product_search_form': product_search_form})
 
-def search(request):
+
+def search(request, category_slug):
     form = ProductSearchForm(request.POST)
     if form.is_valid():
         order_type = form.cleaned_data['order_type']
@@ -25,10 +40,12 @@ def search(request):
         request.session['order_type'] = order_type
         request.session['pickup'] = pickup
         request.session['drop'] = drop
-        # return HttpResponse('Working: '+order_type)
-        return redirect('product_list')
+        # return HttpResponse('Working: '+pickup)
+        return redirect('.'+'/product')
+        # return redirect('product_list')
     else:
-        return HttpResponse('Not Working')
+        product_search_form = ProductSearchForm()
+    return render(request, 'search_page.html', {'product_search_form': product_search_form})
 
 
 def product_list(request, category_slug=None):
@@ -43,24 +60,23 @@ def product_list(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
 
-    cart_product_form = CartAddProductForm()
-    product_search_form = ProductSearchForm()
-
     # for retrieving search form values from sessions
     order_type = request.session.get('order_type')
     pickup = request.session.get('pickup')
     drop = request.session.get('drop')
     # END
 
+    cart_product_form = CartAddProductForm()
+
     if order_type == None:
         order_type = "default"
 
     return render(request,
-                  'list.html',
+                  'product_list.html',
                   {'category': category,
                    'categories': categories,
                    'products': products,
-                   'product_search_form': product_search_form,
+
                    'cart_product_form': cart_product_form,
                    'order_type':order_type,
                    'pickup': pickup,

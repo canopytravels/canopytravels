@@ -35,7 +35,8 @@ import json
 class OrderItemInline(admin.StackedInline):
     model = OrderItem
     extra = 0
-    exclude = ['price']
+    readonly_fields = ['duration', 'cost']
+    # exclude = ['price']
 
 
 
@@ -89,6 +90,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ['customer','completed', 'paid']
     # exclude = ['read']
     inlines = [OrderItemInline]
+
+    readonly_fields = ['total_cost',]
 
     Order._meta.verbose_name_plural = "Orders ( %s ) " % Order.objects.filter(read='False').count()
 

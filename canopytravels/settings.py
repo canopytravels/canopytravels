@@ -31,17 +31,20 @@ ALLOWED_HOSTS = [u'canopytravels.pythonanywhere.com', u'www.canopytravels.com', 
 # Application definition
 
 INSTALLED_APPS = [
+    'tempus_dominus',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home',
     'canopyapp',
     'customer',
     'product',
     'order',
     'cart',
     'django.contrib.admin',
+
 ]
 
 MIDDLEWARE = [

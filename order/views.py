@@ -25,7 +25,8 @@ def	order_create(request):
         #     return	render(request, 'created.html', {'order':	order})
     # else:
         # form	=	OrderCreateForm()
-    return	render(request, 'create.html', {'cart':	cart})
+    # return	render(request, 'create.html', {'cart':	cart})
+    return	render(request, 'checkout.html', {'cart':	cart})
 
 def order_save(request):
     is_loggedIn = request.session.get('loggedIn')
