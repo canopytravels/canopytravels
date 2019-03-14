@@ -60,7 +60,7 @@ def send_sms(mobile):
 
     conn = http.client.HTTPSConnection("control.msg91.com")
 
-    payload = "<MESSAGE> <AUTHKEY>256624Ax2u15T0ke135c3c6465</AUTHKEY> <SENDER>CANOPY</SENDER> <ROUTE>Template</ROUTE> <CAMPAIGN>XML API</CAMPAIGN> <COUNTRY>91</COUNTRY> <SMS TEXT=\"THANK YOU %s FOR BOOKING\" > <ADDRESS TO=\"8638176825\"></ADDRESS> </SMS> </MESSAGE>" %mobile
+    payload = "<MESSAGE> <AUTHKEY>256624Ax2u15T0ke135c3c6465</AUTHKEY> <SENDER>CANOPY</SENDER> <ROUTE>Template</ROUTE> <CAMPAIGN>XML API</CAMPAIGN> <COUNTRY>91</COUNTRY> <SMS TEXT=\"THANK YOU FOR BOOKING\" > <ADDRESS TO=\"%s\"></ADDRESS> </SMS> </MESSAGE>" %mobile
 
 
 
@@ -87,13 +87,13 @@ def send_sms(mobile):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id','customer', 'status', 'created_at']
-    list_filter = ['customer','completed', 'paid']
+    list_filter = ['customer','completed', 'paid', 'read']
     # exclude = ['read']
     inlines = [OrderItemInline]
 
     readonly_fields = ['total_cost',]
 
-    Order._meta.verbose_name_plural = "Orders ( %s ) " % Order.objects.filter(read='False').count()
+    # Order._meta.verbose_name_plural = "Orders ( %s ) " % Order.objects.filter(read='False').count()
 
 
     # Method for sending sms when order is successfully completed.
@@ -107,6 +107,14 @@ class OrderAdmin(admin.ModelAdmin):
         else:
             pass
         super().save_model(request, obj, form, change)
+
+
+    # METHOD FOR AUTOMATICALLY ADDING ORDER AS READ
+    def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
+        if obj is not None:
+            obj.read = True
+            obj.save()
+        return super().render_change_form(request, context, add=add, change=change, form_url=form_url, obj=obj)
 
     # class Meta:
         # verbose_name_plural = "Orders ( %s ) " % Order.objects.filter(read='False').count()

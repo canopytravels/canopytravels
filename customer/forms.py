@@ -3,11 +3,11 @@ from .models import Customer
 
 #ENTER PHONE NUMBER FORM
 class LoginForm(forms.Form):
-    phone_number = forms.CharField()
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control"}))
 
 #VERIFY OTP FORM
 class VerifyOtpForm(forms.Form):
-    otp_input = forms.CharField()
+    otp_input = forms.CharField(widget=forms.TextInput(attrs={'class': "form-control otp"}))
 
 class RegisterCustomerForm(forms.ModelForm):
     #customer_phone = forms.CharField(disabled=True)

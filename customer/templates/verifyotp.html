@@ -1,7 +1,46 @@
-<h1>Verify OTP</h1>
-  <p>Please verify your phone {{phone_number}}</p>
-  <form action="/verifyotp" method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Verify"></p>
-  </form>
+{% extends 'base.html' %}
+{% block content %}
+
+    <!-- CSS
+    ============================================================================ -->
+
+    {%load staticfiles %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'customer/css/otp.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,"
+      rel="stylesheet"
+    />
+
+      <!-- LOGIN
+      ======================================================================= -->
+      <div class="otp-wrapper">
+        <div class="otp-panel">
+            <p>Please verify your phone {{request.session.phone_number}}</p>
+        <form action="/verifyotp" method="post">
+          <p><b>Enter OTP:</b></p>
+          <div class="input-group flex-nowrap">
+              {{ form.otp_input }}
+              {% csrf_token %}
+            <!--<input-->
+            <!--  type="text"-->
+            <!--  class="form-control otp"-->
+            <!--  placeholder="X-X-X-X-X"-->
+            <!--  aria-label="Phone"-->
+            <!--  aria-describedby="addon-wrapping"-->
+            <!--/>-->
+          </div>
+          <button type="submit" class="btn btn-success login-otp">
+            Verify OTP
+          </button>
+          </form>
+        </div>
+      </div>
+
+{% endblock %}

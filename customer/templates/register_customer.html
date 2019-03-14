@@ -1,8 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
 
-<h1>REGISTER</h1>
-  <p>Please enter your details</p>
-  <form class="customer-form" method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="REGISTER"></p>
-  </form>
+{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'customer/css/register.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,"
+      rel="stylesheet"
+    />
+
+      <!-- Resigter
+      ======================================================================= -->
+      <div class="register-wrapper">
+        <div class="reg-panel">
+          <p><b>Register</b></p>
+          <div class="input-group flex-nowrap">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="addon-wrapping">Name:</span>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter your name"
+              aria-label="name"
+              aria-describedby="addon-wrapping"
+            />
+          </div>
+          <div class="input-group flex-nowrap">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="addon-wrapping"
+                >Phone: +91</span
+              >
+            </div>
+            <input type=tel" class="form-control" placeholder="98765 43210" aria-label="phone" aria-describedby="addon-wrapping" />
+          </div>
+          <div class="input-group flex-nowrap">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="addon-wrapping">Email:</span>
+            </div>
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Enter your email"
+              aria-label="email"
+              aria-describedby="addon-wrapping"
+            />
+          </div>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Address:</span>
+            </div>
+            <textarea
+              placeholder="Enter Address"
+              class="form-control"
+              aria-label="address"
+            ></textarea>
+          </div>
+          <button type="button" class="btn btn-success">Done</button>
+          <p>
+            Already registered?
+            <a href="../login/login.html">Login</a>
+          </p>
+        </div>
+      </div>
+
+     {% endblock %}

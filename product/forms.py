@@ -1,7 +1,6 @@
 import datetime
 
 from django import forms
-from tempus_dominus.widgets import DateTimePicker
 
 
 DEFAULT = 'DF'
@@ -40,32 +39,36 @@ class ProductSearchForm(forms.Form):
     #     })
     # )
 
-    pickup = forms.DateTimeField(
-        widget=DateTimePicker(
-            options={
-                'minDate': (datetime.date.today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'),  # Tomorrow
-                'useCurrent': True,
-                'collapse': False,
-            },
-            attrs={
-              'append': 'fa fa-calendar',
-              'input_toggle': False,
-              'icon_toggle': True,
-            }
-        ),
-    )
+    pickup = forms.DateTimeField()
 
-    drop = forms.DateTimeField(
-        widget=DateTimePicker(
-            options={
-                # 'minDate': (datetime.date.today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'),  # Tomorrow
-                # 'useCurrent': True,
-                # 'collapse': False,
-            },
-            attrs={
-              'append': 'fa fa-calendar',
-            #   'input_toggle': False,
-            #   'icon_toggle': True,
-            }
-        ),
-    )
+    drop = forms.DateTimeField()
+
+    # pickup = forms.DateTimeField(
+    #     widget=DateTimePicker(
+    #         options={
+    #             'minDate': (datetime.date.today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'),  # Tomorrow
+    #             'useCurrent': True,
+    #             'collapse': False,
+    #         },
+    #         attrs={
+    #           'append': 'fa fa-calendar',
+    #           'input_toggle': False,
+    #           'icon_toggle': True,
+    #         }
+    #     ),
+    # )
+
+    # drop = forms.DateTimeField(
+    #     widget=DateTimePicker(
+    #         options={
+    #             # 'minDate': (datetime.date.today() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'),  # Tomorrow
+    #             # 'useCurrent': True,
+    #             # 'collapse': False,
+    #         },
+    #         attrs={
+    #           'append': 'fa fa-calendar',
+    #         #   'input_toggle': False,
+    #         #   'icon_toggle': True,
+    #         }
+    #     ),
+    # )

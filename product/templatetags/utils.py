@@ -9,9 +9,14 @@ class CustomRequest:
         self.user = user
 
 @register.simple_tag(takes_context=True)
-def get_app_list(context, **kwargs):
+def get_newly_orders(context, **kwargs):
     custom_request = CustomRequest(context['request'].user)
-    app_list = admin.site.get_app_list(custom_request)
-    
+    # app_list = admin.site.get_app_list(custom_request)
+
     order = Order.objects.filter(read='False').count()
-    return "Orders %s" %order
+    return "Newly booked Orders %s" %order
+
+@register.simple_tag(takes_context=True)
+def get_total_orders(context, **kwargs):
+    order = Order.objects.count()
+    return "Total booked: %s" %order

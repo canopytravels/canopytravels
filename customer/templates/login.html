@@ -1,7 +1,49 @@
-<h1>Log-in</h1>
-  <p>Please, use the following form to log-in:</p>
-  <form action="/login" method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="SEND OTP"></p>
-  </form>
+{% extends 'base.html' %}
+{% block content %}
+
+    <!-- CSS
+    ============================================================================ -->
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'customer/css/login.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,"
+      rel="stylesheet"
+    />
+
+
+      <!-- LOGIN
+      ======================================================================= -->
+      <div class="login-wrapper">
+        <div class="login-panel">
+        <form action="/login" method="post">
+          <p><b>Enter phone number:</b></p>
+          <div class="input-group flex-nowrap">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="addon-wrapping">+91</span>
+            </div>
+
+            {{form.phone_number}}
+            {% csrf_token %}
+            <!--<input-->
+            <!--  type="tel"-->
+            <!--  class="form-control"-->
+            <!--  placeholder="98765 43210"-->
+            <!--  aria-label="Phone"-->
+            <!--  aria-describedby="addon-wrapping"-->
+            <!--/>-->
+          </div>
+          <button type="submit" class="btn btn-primary login-otp">
+            Get OTP
+          </button>
+          </form>
+        </div>
+      </div>
+
+   {% endblock %}

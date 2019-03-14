@@ -1,3 +1,9 @@
+https://flatpickr.js.org/
+
+https://tarruda.github.io/bootstrap-datetimepicker/
+
+https://www.jqueryscript.net/time-clock/Datetime-Picker-jQuery-Moment.html
+
 https://treyhunner.com/2014/09/adding-css-classes-to-django-form-fields/
 
 https://medium.com/crowdbotics/how-to-add-a-navigation-menu-in-django-admin-770b872a9531

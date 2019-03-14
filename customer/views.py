@@ -57,6 +57,7 @@ def is_loggedIn():
 
 #LOGIN IMPLEMENTATION
 def user_login(request):
+    is_loggedIn = request.session.get('loggedIn')
     phone = request.session.get('phone_number')
     if phone == None:
         if request.method == 'POST':
@@ -76,8 +77,13 @@ def user_login(request):
             form = LoginForm()
         return render(request, 'login.html', {'form': form})
 
-    else:
+    elif phone != None and is_loggedIn=="True":
         return redirect('product_list')
+
+    else:
+        del request.session['phone_number']
+        return redirect('customer:login')
+
         # FOR DISPLAYING ALERT MESSAGE
         # messages.info(request, 'You are Already LoggedIn!')
         ##
