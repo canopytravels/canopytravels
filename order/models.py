@@ -79,7 +79,7 @@ class OrderItem(models.Model):
         elif self.order_type == 'WK':
             duration = duration_diff.days/7
         else:
-            duration = 0
+            duration = 1
         return duration
 
     def get_cost(self):

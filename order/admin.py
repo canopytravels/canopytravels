@@ -86,6 +86,7 @@ def send_sms(mobile):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    list_display_links = ['id','customer']
     list_display = ['id','customer', 'status', 'created_at']
     list_filter = ['customer','completed', 'paid', 'read']
     # exclude = ['read']

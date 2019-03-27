@@ -44,9 +44,9 @@ class Product(models.Model):
     image = models.ImageField(upload_to='uploads/%Y/%m/%d/', null=True, blank=True)
     description = models.TextField()
     price_default = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    price_hour = models.DecimalField(max_digits=8, decimal_places=2, null=True)
-    price_day = models.DecimalField(max_digits=8, decimal_places=2, null=True)
-    price_week = models.DecimalField(max_digits=8, decimal_places=2, null=True)
+    price_hour = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    price_day = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    price_week = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     available = models.BooleanField()
     created_at = models.DateTimeField(auto_now=True)
 

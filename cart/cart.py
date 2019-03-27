@@ -16,6 +16,20 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
+    # METHOD FOR ADDING ADDONS TO THE CART
+    def add_addons(self, product, quantity=0, update_quantity=False):
+        addons_id = str(product.id)
+        if addons_id not in self.cart:
+            self.cart[addons_id] = self.cart[addons_id] = {'quantity': 0, 'price': str(product.price_default), 'order_type':'DF', 'pickup':'2000-01-01 10:00', 'drop':'2000-01-01 10:00', 'duration': 1, 'category': str(product.category)}
+        if update_quantity:
+            self.cart[addons_id]['quantity'] = quantity
+        else:
+            self.cart[addons_id]['quantity'] += quantity
+        self.save()
+    # END OF METHOD OF ADDING ADDONS TO THE CART
+
+
+    # METHOD FOR ADDING VEHICLES INTO THE CART
     def add(self, product, order_type, pickup, drop, quantity=1, update_quantity=False):
         """
         Add a product to the cart or update its quantity.
@@ -29,19 +43,29 @@ class Cart(object):
         #end of calculation
 
         product_id = str(product.id)
+        product_category = str(product.category)
         if product_id not in self.cart:
             if order_type == 'HR':
-                self.cart[product_id] = {'quantity': 0, 'price': str(product.price_hour), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.seconds/3600}
+                self.cart[product_id] = {'quantity': 1, 'price': str(product.price_hour), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.seconds/3600, 'total_price':str(Decimal(product.price_hour) * Decimal(duration.seconds/3600)), 'category': product_category}
             elif order_type == 'DY':
-                self.cart[product_id] = {'quantity': 0, 'price': str(product.price_day), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.days}
+                if duration.days == 0 and duration.seconds != 0 and duration.seconds/3600>15:
+                    self.cart[product_id] = {'quantity': 1, 'price': str(product.price_day), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.days+1, 'total_price':str(Decimal(product.price_day) * Decimal(duration.days+1)), 'category': product_category}
+                elif duration.days>0 and duration.seconds>0:
+                    self.cart[product_id] = {'quantity': 1, 'price': str(product.price_day), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.days+1, 'total_price':str(Decimal(product.price_day) * Decimal(duration.days+1)), 'category': product_category}
+                else:
+                    self.cart[product_id] = {'quantity': 1, 'price': str(product.price_day), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.days, 'total_price':str(Decimal(product.price_day) * Decimal(duration.days)), 'category': product_category}
             elif order_type == 'WK':
-                self.cart[product_id] = {'quantity': 0, 'price': str(product.price_week), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.days/7}
+                self.cart[product_id] = {'quantity': 1, 'price': str(product.price_week), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.days/7, 'total_price':str(Decimal(product.price_week) * Decimal(duration.days/7)), 'category': product_category}
             else:
-                self.cart[product_id] = {'quantity': 0, 'price': str(product.price_hour), 'order_type':order_type, 'pickup':pickup, 'drop':drop}
-        if update_quantity:
-            self.cart[product_id]['quantity'] = quantity
-        else:
+                self.cart[product_id] = {'quantity': 1, 'price': str(product.price_hour), 'order_type':order_type, 'pickup':pickup, 'drop':drop}
+
+        if update_quantity and (product_category!='BIKES' or product_category!='CARS') :
+        # if update_quantity:
+            # self.cart[product_id]['quantity'] = quantity
             self.cart[product_id]['quantity'] += quantity
+        else:
+            # self.cart[product_id]['quantity'] += quantity
+            self.cart[product_id]['quantity'] = quantity
         self.save()
 
     # def add(self, product, quantity=1, update_quantity=False):
@@ -87,7 +111,10 @@ class Cart(object):
 
         for item in cart.values():
             item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['quantity']
+            if item['duration']!=None:
+                item['total_price'] = Decimal(item['price']) * item['quantity'] * Decimal(item['duration'])
+            else:
+                item['total_price'] = Decimal(item['price']) * item['quantity']
             yield item
 
     def __len__(self):
@@ -97,7 +124,7 @@ class Cart(object):
         return sum(item['quantity'] for item in self.cart.values())
 
     def get_total_price(self):
-        return sum(Decimal(item['price']) * item['quantity'] * Decimal(item['duration']) for item in self.cart.values())
+         return sum(Decimal(item['price']) * item['quantity'] * Decimal(item['duration']) for item in self.cart.values())
 
     def clear(self):
         # remove cart from session

@@ -19,18 +19,22 @@
       ======================================================================= -->
       <div class="register-wrapper">
         <div class="reg-panel">
+
+        <form class="customer-form" method="post">
           <p><b>Register</b></p>
           <div class="input-group flex-nowrap">
             <div class="input-group-prepend">
               <span class="input-group-text" id="addon-wrapping">Name:</span>
             </div>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter your name"
-              aria-label="name"
-              aria-describedby="addon-wrapping"
-            />
+
+            {{form.customer_name}}
+
+            <!--<input-->
+            <!--  type="text"-->
+            <!--  class="form-control"-->
+            <!--  placeholder="Enter your name"-->
+            <!--  aria-label="name"-->
+            <!--aria-describedby="addon-wrapping"/>-->
           </div>
           <div class="input-group flex-nowrap">
             <div class="input-group-prepend">
@@ -38,35 +42,42 @@
                 >Phone: +91</span
               >
             </div>
-            <input type=tel" class="form-control" placeholder="98765 43210" aria-label="phone" aria-describedby="addon-wrapping" />
+
+            {{form.customer_phone}}
+            <!--<input type="tel" class="form-control" placeholder="98765 43210" aria-label="phone" aria-describedby="addon-wrapping" />-->
           </div>
           <div class="input-group flex-nowrap">
             <div class="input-group-prepend">
               <span class="input-group-text" id="addon-wrapping">Email:</span>
             </div>
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Enter your email"
-              aria-label="email"
-              aria-describedby="addon-wrapping"
-            />
+
+            {{form.customer_email}}
+            <!--<input-->
+            <!--  type="email"-->
+            <!--  class="form-control"-->
+            <!--  placeholder="Enter your email"-->
+            <!--  aria-label="email"-->
+            <!--  aria-describedby="addon-wrapping"/>-->
           </div>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">Address:</span>
             </div>
-            <textarea
-              placeholder="Enter Address"
-              class="form-control"
-              aria-label="address"
-            ></textarea>
+
+            {{form.customer_address}}
+            <!--<textarea-->
+            <!--  placeholder="Enter Address"-->
+            <!--  class="form-control"-->
+              <!--aria-label="address">-->
+              <!--</textarea>-->
           </div>
-          <button type="button" class="btn btn-success">Done</button>
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Done</button>
           <p>
             Already registered?
-            <a href="../login/login.html">Login</a>
+            <a href="/login">Login</a>
           </p>
+        </form>
         </div>
       </div>
 

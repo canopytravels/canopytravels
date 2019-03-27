@@ -36,18 +36,22 @@
                             </div>
                         </div>
                         <div class="row">
+                            {% if item.category != 'ADDONS'  %}
                             <div class="col-md-3 col-6 order-info">
                                 <h5>Pick Up</h5>
                                 <hr>
-                                <p>Date: {{item.pickup}}</p>
-                                <p>Time: 11:00 AM</p>
+                                <p>Date & Time: {{item.pickup}}</p>
+                                <!--<p>Time: 11:00 AM</p>-->
                             </div>
                             <div class="col-md-3 col-6 order-info">
                                 <h5>Drop</h5>
                                 <hr>
-                                <p>Date: {{item.drop}}</p>
-                                <p>Time:02:00 PM</p>
+                                <p>Date & Time: {{item.drop}}</p>
+                                <!--<p>Time:02:00 PM</p>-->
                             </div>
+                            {% endif %}
+
+                            {% if item.category != 'ADDONS'  %}
                             <div class="col-md-3 col-6 order-info">
                                 <h5>Duration</h5>
                                 <hr>
@@ -59,10 +63,24 @@
                                     <p>{{item.duration}} weeks</p>
                                 {% endif %}
                             </div>
+                            {% else %}
+                            <div class="col-md-3 col-6 order-info">
+                                <h5>Quantity</h5>
+                                <hr>
+                                    <p>{{item.quantity}} qty</p>
+                                </hr>
+                            </div>
+                            {% endif %}
+
                             <div class="col-md-3 col-6 order-info">
                                 <h5>Price</h5>
                                 <hr>
                                 <h4>Rs. {{item.price}}/-</h4>
+                            </div>
+                            <div class="col-md-3 col-6 order-info">
+                                <h5>Total Price</h5>
+                                <hr>
+                                <h4>Rs. {{item.total_price}}/-</h4>
                             </div>
                         </div>
 
@@ -82,55 +100,44 @@
             <h5>Add Ons</h5>
             <hr class="blue-underline">
 
+
             <div class="container-fluid add-ons">
-                <div class="row addOn-item">
-                    <div class="col-md-3 col-12">
-                        <h5>Riding Gloves: </h5>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <span>Rs. 99</span>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <span>Quantity: </span>
-                        <input type="number" min="0" value="0">
-                    </div>
-                    <div class="col-md-3 col-12 addCart-btn">
-                        <button class="btn btn-success btn-sm">Add</button>
-                    </div>
-                </div>
 
+                {% for item in addons %}
                 <div class="row addOn-item">
                     <div class="col-md-3 col-12">
-                        <h5>Riding Helmets: </h5>
+                        <h5>{{item.name}}</h5>
+                        <!--<h5>Riding Gloves: </h5>-->
                     </div>
                     <div class="col-md-3 col-6">
-                        <span>Rs. 250</span>
+                        <span>Rs: {{item.price_default}}</span>
                     </div>
-                    <div class="col-md-3 col-6">
-                        <span>Quantity: </span>
-                        <input type="number" min="0" value="0">
-                    </div>
-                    <div class="col-md-3 col-12 addCart-btn">
-                        <button class="btn btn-success btn-sm">Add</button>
-                    </div>
-                </div>
+                    <!--<div class="col-md-3 col-6">-->
+                    <!--    <span>Quantity: </span>-->
+                    <!--    <input type="number" min="0" value="0">-->
+                    <!--</div>-->
 
-                <div class="row addOn-item">
-                    <div class="col-md-3 col-12">
-                        <h5>Camping Tent </h5>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <span>Rs. 760</span>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <span>Quantity: </span>
-                        <input type="number" min="0" value="0">
-                    </div>
                     <div class="col-md-3 col-12 addCart-btn">
-                        <button class="btn btn-success btn-sm">Add</button>
+                    <form action="{% url "cart:cart_add_addons" item.id %}" method="post">
+                        {{ cart_addons_form }}
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Add
+                        </button>
+                    </form>
                     </div>
+
+                    <!--<div class="col-md-3 col-12 addCart-btn">-->
+                    <!--    <button class="btn btn-success btn-sm">Add</button>-->
+                    <!--</div>-->
+
+
                 </div>
+                {% endfor %}
+
             </div>
+
+
             <hr class="fullDivider">
             <div class="total">
                 <h4>Amount Payable: Rs {{cart.get_total_price}}/-</h4>
@@ -138,7 +145,8 @@
             <hr class="fullDivider">
             <div class="row ">
                 <div class="col-12 col-md-6 otherOptions addV">
-                    <a href="{% url "product_list" %}" class="btn btn-primary" id="addVehi">Add Vehicle</a>
+                    <!--<input class="btn btn-primary" value="Add Vehicle" onClick="javascript:history.go(-1);">-->
+                    <a href="{% url "rent" %}" class="btn btn-primary" id="addVehi">Add Vehicle</a>
                 </div>
                 <div class="col-12 col-md-6 otherOptions chkout">
                     <a href="{% url "orders:create"%}" class="btn btn-success" id="checkout">Checkout</a>

@@ -1,118 +1,287 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <!-- CSS
+<!-- CSS
     ============================================================================ -->
-    {% load staticfiles %}
-  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle.css'  %}" />
-  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-md.css'  %}" />
-  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-sm.css" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400," rel="stylesheet" />
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle.css'  %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-md.css'  %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-sm.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400," rel="stylesheet" />
 
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
 
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-
-
-<link href="{% static 'datetimepicker/css/datetimepicker.css' %}" rel="stylesheet">
-<script src="{% static 'datetimepicker/js/datetimepicker.js' %}"></script>
-
-    <!--JQUERY INLINE DATETIME PICKER-->
-  <!--<link rel="stylesheet" type="text/css" href="{% static 'jdatetimepicker/jquery.datetimepicker.min.css' %}"/>-->
-  <!--<script src="{% static 'jdatetimepicker/jquery.datetimepicker.full.js' %}"></script>-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 
 
+<!--WORKING DATETIMEPICKER-->
+<!--<link href="{% static 'datetimepicker/css/datetimepicker.css' %}" rel="stylesheet">-->
+<!--<script src="{% static 'datetimepicker/js/datetimepicker.js' %}"></script>-->
 
-    <!-- SECTION 1/ RENT INFORMATION
+<!--FLATPICKER DATETIME-->
+<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"/>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>-->
+<!--END OF FLATPICKER-->
+
+<!--JQUERY INLINE DATETIME PICKER-->
+<link rel="stylesheet" type="text/css" href="{% static 'jdatetimepicker/jquery.datetimepicker.css' %}" />
+<script src="{% static 'jdatetimepicker/jquery.datetimepicker.full.js' %}"></script>
+
+<!--DISPLAY FORM VALIDATION ERROR-->
+
+                        <!--{% if messages %}-->
+                        <!--<ul>-->
+                        <!--	{% for message in messages %}-->
+                        <!--	   <li>{{ message }}</li>-->
+                        <!--	{% endfor %}-->
+                        <!--</ul>-->
+                        <!--{% endif %}-->
+<!--END OF FORM VALIDATION ERROR DISPLAY-->
+
+
+<!-- SECTION 1/ RENT INFORMATION
     ====================================================================== -->
+
+<form action="." method="post" autocomplete="off">
+
+
+
     <div class="container-fluid" id="rentInfo">
 
-<form action="." method="post">
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
 
-      <div class="container">
-        <div class="row info">
-          <div class="col-md-6 col-xs-12 ">
-            <h5 class="pickup">PICKUP</h5>
-            <hr class="blue-underline" />
-            <div class="fields">
-              <p>Date & Time:</p>
+                <div class="alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+          </ul>
+        {% endif %}
 
-              <div id="pick"> </div>
-              {{ product_search_form.pickup.as_hidden }}
+        <div class="container">
+            <div class="row info">
+                <div class="col-md-6 col-xs-12 ">
+                    <h5 class="pickup">PICKUP</h5>
+                    <hr class="blue-underline" />
+                    <div class="fields">
+                        <p>Date & Time:</p>
 
-            <script>
-              $('#pick').dateTimePicker({
-                dateFormat: "YYYY-MM-DD HH:mm"
-                });
-            </script>
+                        {{ product_search_form.pickup }}
 
-              {% if pickup %}
-                Selected: {{pickup}}
-              {% endif %}
-              <!--<input type="datetime-local" placeholder="yyyy-mm-dd" />-->
+
+<!--PICKUP PICKER-->
+<script>
+    var optVal;
+    var logic = function(currentDateTime) {
+        if (optVal == 'HR')
+        {
+            this.setOptions({
+                // minTime: currentDateTime.getTime(),
+                minTime: '07:00',
+                maxTime: '23:00',
+                format: 'Y-m-d H:00',
+                formatTime: 'h a',
+                minDate:0,
+                            });
+        }else if(optVal == 'DY')
+            {
+               this.setOptions({
+                minTime: '07:00',
+                maxTime: '23:00',
+                format: 'Y-m-d H:00',
+                formatTime: 'h a',
+                minDate:0
+            });
+            }
+         else
+         {
+            this.setOptions({
+                minTime: '07:00',
+                maxTime: '23:00',
+                format: 'Y-m-d H:00',
+                formatTime: 'h a',
+                minDate:0
+            });
+         }
+    };
+    jQuery('#id_pickup').datetimepicker({
+        onChangeDateTime: logic,
+        onShow: logic,
+        onSelectDate: function(){
+            afterpickupdateselected();
+        }
+    });
+</script>
+<!--END OF PICKUP PICKER-->
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 ">
+                    <h5 class="drop">DROP</h5>
+                    <hr class="blue-underline" />
+                    <div class="fields">
+                        <p>Date & Time:</p>
+
+                        {{ product_search_form.drop }}
+
+
+<!--DROP PICKER-->
+<script>
+    var optVal;
+    var logic = function(currentDateTime) {
+        //console.log("from"+optVal)
+        // 'this' is jquery object datetimepicker
+        if (optVal == 'HR')
+        {
+            this.setOptions({
+                maxTime:'23:00',
+                // maxTime: '23:00',
+                minTime:jQuery('#id_pickup').val()?new Date(jQuery('#id_pickup').val()).getHours()+1+":"+new Date(jQuery('#id_pickup').val()).getMinutes():false,
+                //maxTime: jQuery('#id_pickup').val().getHours()+":"+(parseInt(jQuery('#id_pickup').getMinutes())+33),
+                format: 'Y-m-d H:00',
+                formatTime: 'h a',
+                minDate:jQuery('#id_pickup').val()?jQuery('#id_pickup').val():false,
+                maxDate:jQuery('#id_pickup').val()?jQuery('#id_pickup').val():false,
+            });
+        }else if(optVal == 'DY')
+            {
+               this.setOptions({
+                minTime: '07:00',
+                maxTime:jQuery('#id_pickup').val()?new Date(jQuery('#id_pickup').val()).getHours()+":"+new Date(jQuery('#id_pickup').val()).getMinutes():false,
+                format: 'Y-m-d H:00',
+                formatTime: 'h a',
+                minDate:jQuery('#id_pickup').val()?jQuery('#id_pickup').val():false,
+                maxDate: false,
+            });
+            }
+         else
+         {
+            this.setOptions({
+                minTime: '07:00',
+                maxTime: '23:00',
+                format: 'Y-m-d H:00',
+                formatTime: 'h a',
+                minDate:jQuery('#id_pickup').val()?jQuery('#id_pickup').val():false,
+                maxDate: false,
+            });
+         }
+    };
+    jQuery('#id_drop').datetimepicker({
+        onChangeDateTime: logic,
+        onShow: logic,
+        onSelectDate: function(){
+            afterdropdateselected();
+        },
+        onSelectTime: function(){
+            validate($(this).val());
+        }
+    });
+
+
+</script>
+<!--END OF DROP PICKER-->
+
+<!--CLIENT SIDE FORM VALIDATION-->
+<script>
+
+$(document).ready(function(){
+  $("#id_drop").click(function(){
+      pickupdate = jQuery('#id_pickup').val();
+      if(pickupdate=='')
+      {
+        // alert("Plesae select pickup date & time first.");
+        // $('#id_drop').mouseup(function (e) {
+
+        //     $('#id_drop').close();
+
+        // });
+      }
+
+  });
+});
+    function afterpickupdateselected()
+    {
+        jQuery('#id_pickup').val('');
+    }
+
+    function afterdropdateselected()
+    {
+        jQuery('#id_drop').val('');
+    }
+
+    function validate(dateText){
+     try {
+         pickupdate = jQuery('#id_pickup').val();
+         dropdate = jQuery('#id_drop').val();
+         startdate = new Date(pickupdate);
+         enddate = new Date(dropdate);
+         if(startdate>enddate)
+         {
+             alert("Drop date should be larger than pickup date.");
+             jQuery('#id_drop').val('');
+         }
+
+         }
+     catch (e) {
+         alert("invalid date");
+      };
+    }
+</script>
+<!--END OF CLIENT SIDE FORM VALIDATION-->
+
+
+                        {% if drop %}
+                        Selected: {{drop}}
+                        {% endif %}
+
+                    </div>
+
+                </div>
             </div>
-            <!--<div class="fields">-->
-            <!--  <p>Time:</p>-->
-            <!--  {{ product_search_form.pickup }}-->
-            <!--  <input type="time" placeholder="10:30 AM" />-->
-            <!--</div>-->
-          </div>
-          <div class="col-md-6 col-xs-12 ">
-            <h5 class="drop">DROP</h5>
-            <hr class="blue-underline" />
-            <div class="fields">
-              <p>Date & Time:</p>
-              <div id="drop"> </div>
-              {{ product_search_form.drop.as_hidden }}
-            <script>
-              $('#drop').dateTimePicker({
-                dateFormat: "YYYY-MM-DD HH:mm"
-                });
-            </script>
-              {% if drop %}
-                Selected: {{drop}}
-              {% endif %}
-              <!--<input type="date" placeholder="yyyy-mm-dd" />-->
+            <div class="row info action">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Booking Type</label>
+                        {{ product_search_form.order_type }}
+                        <!--<select class="form-control" id="exampleFormControlSelect1">-->
+                        <!--  <option>Select your booking type</option>-->
+                        <!--  <option value="p/h">per hour</option>-->
+                        <!--  <option value="p/d">per day</option>-->
+                        <!--  <option value="p/w">per week</option>-->
+                        <!--</select>-->
+                    </div>
+                </div>
+                <div class="col-12">
+
+                    {% csrf_token %}
+                    <button type="submit" value="SEARCH" class="btn btn-primary">
+                        Search Rides
+                    </button>
+
+
+
+                </div>
             </div>
-            <!--<div class="fields">-->
-            <!--  <p>Time:</p>-->
-            <!--  <input type="time" placeholder="10:30 AM" />-->
-            <!--</div>-->
-          </div>
-        </div>
-        <div class="row info action">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Booking Type</label>
-              {{ product_search_form.order_type }}
-              <!--<select class="form-control" id="exampleFormControlSelect1">-->
-              <!--  <option>Select your booking type</option>-->
-              <!--  <option value="p/h">per hour</option>-->
-              <!--  <option value="p/d">per day</option>-->
-              <!--  <option value="p/w">per week</option>-->
-              <!--</select>-->
-            </div>
-          </div>
-          <div class="col-12">
-
-{% csrf_token %}
-                <button type="submit" value="SEARCH" class="btn btn-primary">
-                  Search Rides
-                </button>
-
-
-
-          </div>
-        </div>
-        <hr />
+            <hr />
 
 </form>
 
-      </div>
-    </div>
+</div>
+</div>
 
 
-  {% endblock %}
+<!--CHANGE DATETIME FIELD VALUE DEPENDING UPON BOOKING TYPE-->
+<script>
+    $(document.body).bind('load change', "#id_order_type", function(e) {
+        //doStuff
+        optVal = $("#id_order_type option:selected").val();
+        //console.log(optVal)
+    });
+</script>
+
+
+{% endblock %}

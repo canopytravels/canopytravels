@@ -124,7 +124,7 @@
                   <form action="{% url "cart:cart_add" vehicle.id order_type pickup drop %}" method="post">
                         {{ cart_product_form }}
                         {% csrf_token %}
-                        <button type="submit" value="SEARCH" class="btn btn-primary center">
+                        <button type="submit" class="btn btn-primary center">
                             Add to cart
                         </button>
                   </form>

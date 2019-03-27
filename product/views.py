@@ -8,14 +8,31 @@ from product.models import Product, Category, SubCategory
 from customer.models import Customer
 from order.models import Order, OrderItem
 
+# FOR FORM VALIDATION
+from django.contrib import messages
 
+# SEARCH PAGE
+def search(request, category_slug):
+    if request.method == 'POST':
+        form = ProductSearchForm(request.POST)
+        if form.is_valid():
+            order_type = form.cleaned_data['order_type']
+            pickup = request.POST.get('pickup')
+            drop = request.POST.get('drop')
+            request.session['order_type'] = order_type
+            request.session['pickup'] = pickup
+            request.session['drop'] = drop
+            return redirect('.'+'/product')
+        else:
+            messages.error(request, 'Please select correct values.')
+        return render(request, 'search_page.html', {'product_search_form': form})
 
+    else:
+        product_search_form = ProductSearchForm()
+        return render(request, 'search_page.html', {'product_search_form': product_search_form})
+# END OF SEARCH PAGE
 
-# Create your views here.
-# def products(request):
-#     return HttpResponse('Welcome to Product Page')
-
-# def search(request):
+# def search(request, category_slug):
 #     form = ProductSearchForm(request.POST)
 #     if form.is_valid():
 #         order_type = form.cleaned_data['order_type']
@@ -24,30 +41,17 @@ from order.models import Order, OrderItem
 #         request.session['order_type'] = order_type
 #         request.session['pickup'] = pickup
 #         request.session['drop'] = drop
-#         # return HttpResponse('Working: '+order_type)
-#         return redirect('product_list')
+
+
+
+#         return redirect('.'+'/product')
+
 #     else:
+#         messages.error(request, 'The form is not  valid.')
 #         product_search_form = ProductSearchForm()
 #     return render(request, 'search_page.html', {'product_search_form': product_search_form})
 
-
-def search(request, category_slug):
-    form = ProductSearchForm(request.POST)
-    if form.is_valid():
-        order_type = form.cleaned_data['order_type']
-        pickup = request.POST.get('pickup')
-        drop = request.POST.get('drop')
-        request.session['order_type'] = order_type
-        request.session['pickup'] = pickup
-        request.session['drop'] = drop
-        # return HttpResponse('Working: '+pickup)
-        return redirect('.'+'/product')
-        # return redirect('product_list')
-    else:
-        product_search_form = ProductSearchForm()
-    return render(request, 'search_page.html', {'product_search_form': product_search_form})
-
-
+# PRODUCT DISPLAY PAGE
 def product_list(request, category_slug=None):
     # order_type = request.POST.get('ordertype')
 
@@ -81,7 +85,10 @@ def product_list(request, category_slug=None):
                    'order_type':order_type,
                    'pickup': pickup,
                    'drop': drop})
+# END OF PRODUCT DISPLAY PAGE
 
+
+# PRODUCT DETAILED VIEW PAGE, BUT NOT USED
 def product_detail(request, id, slug):
     product = get_object_or_404(Product,
                                 id=id,
@@ -90,6 +97,7 @@ def product_detail(request, id, slug):
     return render(request,
                   'detail.html',
                   {'product': product})
+# END OF PRODUCT DETAILED VIEW PAGE
 
 #test method for checking user logged in or not (NEEDED to be implemented with booking button)
 def check_login(request):

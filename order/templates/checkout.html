@@ -26,12 +26,15 @@
                             <li class="list-group-item">
                                 {{	item.quantity	}}x	{{	item.product.name	}}
                                 <br>
-
+                                {% if item.category != 'ADDONS'  %}
                                 <span> Pickup: {{ item.pickup }} </span>
                                 <br>
                                 <span> Drop: {{item.drop}} </span>
                                 <br>
-                                <span>Rs {{	item.total_price	}}/-</span>
+                                {% endif %}
+                                <span>Price: Rs {{	item.price}}/-</span>
+                                <br>
+                                <span>Total Price: Rs {{	item.total_price}}/-</span>
                             </li>
                             {%	endfor	%}
                         </ul>

@@ -78,7 +78,7 @@ def user_login(request):
         return render(request, 'login.html', {'form': form})
 
     elif phone != None and is_loggedIn=="True":
-        return redirect('product_list')
+        return redirect('/')
 
     else:
         del request.session['phone_number']
@@ -107,7 +107,7 @@ def verify_login(request):
                         if from_cart:
                             return redirect('orders:create')
                         else:
-                            return HttpResponse('GOTO HOME PAGE')
+                            return redirect('/')
                     else:
                         return redirect('customer:register_customer')
                 else:
@@ -134,7 +134,7 @@ def register_customer(request):
                 if from_cart:
                     return redirect('orders:create')
                 else:
-                    return HttpResponse('GOTO HOME PAGE')
+                    return redirect('/')
 
         else:
             data = {'customer_phone': phone}
