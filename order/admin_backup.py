@@ -32,7 +32,7 @@ import json
 
 
 
-class OrderItemInline(admin.TabularInline):
+class OrderItemInline(admin.StackedInline):
     model = OrderItem
     extra = 0
     readonly_fields = ['duration', 'cost']
@@ -85,9 +85,9 @@ def send_sms(mobile):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display_links = ['id','customer']
-    list_display = ['id','customer', 'created_at']
+    list_display = ['id','customer', 'status', 'created_at']
     list_filter = ['customer','completed', 'paid', 'read']
-    exclude = ['count', 'read', 'status']
+    # exclude = ['read']
     inlines = [OrderItemInline]
 
     readonly_fields = ['total_cost',]

@@ -1,3 +1,4 @@
+import math
 from datetime import datetime
 from decimal import Decimal
 from django.conf import settings
@@ -55,7 +56,7 @@ class Cart(object):
                 else:
                     self.cart[product_id] = {'quantity': 1, 'price': str(product.price_day), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.days, 'total_price':str(Decimal(product.price_day) * Decimal(duration.days)), 'category': product_category}
             elif order_type == 'WK':
-                self.cart[product_id] = {'quantity': 1, 'price': str(product.price_week), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':duration.days/7, 'total_price':str(Decimal(product.price_week) * Decimal(duration.days/7)), 'category': product_category}
+                self.cart[product_id] = {'quantity': 1, 'price': str(product.price_week), 'order_type':order_type, 'pickup':pickup, 'drop':drop, 'duration':math.ceil(duration.days/7), 'total_price':str(Decimal(product.price_week) * Decimal(math.ceil(duration.days/7))), 'category': product_category}
             else:
                 self.cart[product_id] = {'quantity': 1, 'price': str(product.price_hour), 'order_type':order_type, 'pickup':pickup, 'drop':drop}
 

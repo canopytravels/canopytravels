@@ -4,9 +4,9 @@
 <!-- CSS
     ============================================================================ -->
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-v1.css'  %}" />
-<link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-md-v1.css'  %}" />
-<link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-sm-v1.css' %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle.css'  %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-md.css'  %}" />
+<link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-sm.css" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
 <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400," rel="stylesheet" />
 
@@ -15,18 +15,42 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 
+
+<!--WORKING DATETIMEPICKER-->
+<!--<link href="{% static 'datetimepicker/css/datetimepicker.css' %}" rel="stylesheet">-->
+<!--<script src="{% static 'datetimepicker/js/datetimepicker.js' %}"></script>-->
+
+<!--FLATPICKER DATETIME-->
+<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"/>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>-->
+<!--END OF FLATPICKER-->
+
 <!--JQUERY INLINE DATETIME PICKER-->
 <link rel="stylesheet" type="text/css" href="{% static 'jdatetimepicker/jquery.datetimepicker.css' %}" />
 <script src="{% static 'jdatetimepicker/jquery.datetimepicker.full.js' %}"></script>
 
-    <!-- NAVIGATION BAR
-      ======================================================================= -->
-    <!-- SECTION 1/ RENT INFORMATION
+<!--DISPLAY FORM VALIDATION ERROR-->
+
+                        <!--{% if messages %}-->
+                        <!--<ul>-->
+                        <!--	{% for message in messages %}-->
+                        <!--	   <li>{{ message }}</li>-->
+                        <!--	{% endfor %}-->
+                        <!--</ul>-->
+                        <!--{% endif %}-->
+<!--END OF FORM VALIDATION ERROR DISPLAY-->
+
+
+<!-- SECTION 1/ RENT INFORMATION
     ====================================================================== -->
-    <form action="." method="post" autocomplete="off">
+
+<form action="." method="post" autocomplete="off">
+
+
+
     <div class="container-fluid" id="rentInfo">
 
-        <!--FOR DISPLAYING FORM VALIDATION MESSAGE-->
         {% if messages %}
           <ul class="messages">
             {% for message in messages %}
@@ -37,47 +61,17 @@
             {% endfor %}
           </ul>
         {% endif %}
-        <!--END OF FORM VALIDATION MESSAGE-->
 
-      <div class="container">
-        <div class="row info">
-          <div class="col-md-4 col-xs-12 ">
-            <h5 class="drop">BOOKING TYPE</h5>
-            <hr class="blue-underline bu" />
-            <div class="form-group">
-                {{ product_search_form.order_type }}
-            </div>
+        <div class="container">
+            <div class="row info">
+                <div class="col-md-6 col-xs-12 ">
+                    <h5 class="pickup">PICKUP</h5>
+                    <hr class="blue-underline" />
+                    <div class="fields">
+                        <p>Date & Time:</p>
 
-          </div>
-          <div class="col-md-4 col-xs-12 ">
-            <h5 class="pickup">PICKUP</h5>
-            <hr class="blue-underline bu" />
-            <div class="fields">
-              <!-- <p>Date:</p> -->
-              {{ product_search_form.pickup }}
-            </div>
+                        {{ product_search_form.pickup }}
 
-          </div>
-          <div class="col-md-4 col-xs-12 ">
-            <h5 class="drop">DROP</h5>
-            <hr class="blue-underline bu" />
-            <div class="fields">
-              <!-- <p>Date:</p> -->
-              {{ product_search_form.drop }}
-            </div>
-
-          </div>
-          <div id="searchVehiBtn">
-              {% csrf_token %}
-            <button type="submit" value="SEARCH" class="btn btn-primary">
-                        Search Rides
-            </button>
-          </div>
-
-        </div>
-      </div>
-    </div>
-    </form>
 
 <!--PICKUP PICKER-->
 <script>
@@ -126,6 +120,16 @@
     });
 </script>
 <!--END OF PICKUP PICKER-->
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12 ">
+                    <h5 class="drop">DROP</h5>
+                    <hr class="blue-underline" />
+                    <div class="fields">
+                        <p>Date & Time:</p>
+
+                        {{ product_search_form.drop }}
 
 
 <!--DROP PICKER-->
@@ -263,6 +267,46 @@ $(document).ready(function(){
 <!--END OF CLIENT SIDE FORM VALIDATION-->
 
 
+                        {% if drop %}
+                        Selected: {{drop}}
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="row info action">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Booking Type</label>
+                        {{ product_search_form.order_type }}
+                        <!--<select class="form-control" id="exampleFormControlSelect1">-->
+                        <!--  <option>Select your booking type</option>-->
+                        <!--  <option value="p/h">per hour</option>-->
+                        <!--  <option value="p/d">per day</option>-->
+                        <!--  <option value="p/w">per week</option>-->
+                        <!--</select>-->
+                    </div>
+                </div>
+                <div class="col-12">
+
+                    {% csrf_token %}
+                    <button type="submit" value="SEARCH" class="btn btn-primary">
+                        Search Rides
+                    </button>
+
+
+
+                </div>
+            </div>
+            <hr />
+
+</form>
+
+</div>
+</div>
+
+
 <!--CHANGE DATETIME FIELD VALUE DEPENDING UPON BOOKING TYPE-->
 <script>
     $(document.body).bind('load change', "#id_order_type", function(e) {
@@ -271,4 +315,6 @@ $(document).ready(function(){
         //console.log(optVal)
     });
 </script>
+
+
 {% endblock %}

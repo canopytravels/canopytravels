@@ -4,91 +4,104 @@
 <!-- CSS FILES
     ================================================================================== -->
     {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'cart/css/cart.css' %}">
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'cart/css/cart-md.css' %}">
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'cart/css/cart-sm.css' %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'cart/css/cart-v1.css' %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'cart/css/cart-md-v1.css' %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'cart/css/cart-sm-v1.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400," rel="stylesheet">
 
-  <!-- CART ITEMS
+        <!-- CART ITEMS
         ================================================================== -->
         <div class="container-fluid cartItem-wrapper">
             <h5>Your Cart</h5>
             <hr class="blue-underline">
 
-{% for item in cart %}
-                    {% with product=item.product %}
+            {% for item in cart %}
+                {% with product=item.product %}
+
             <div class="package jumbotron">
-                <div class="item row">
-                    <div class="item-img  col-md-4 col-sm-12">
-                        <img src={{product.image.url}} alt="bikeRent">
-                    </div>
-                    <div class="col-sm-12 col-md-8">
-                        <div class="row name-row">
-                            <div class="item-name col-sm-12 col-md-6">
-                                <h3>{{ product.name }}</h3>
+                <div class="item">
+                    <div class="row item-name">
+                        <div class="item-name col-sm-12 col-md-6">
+                            <h3>{{ product.name }}</h3>
 
-                            </div>
-                            <div class="col-sm-12 col-md-6  remove-btn">
-                                <button class="btn btn-outline-danger btn-sm" onclick="location.href='{% url "cart:cart_remove" product.id %}'">Remove item</button>
-
-                            </div>
                         </div>
-                        <div class="row">
-                            {% if item.category != 'ADDONS'  %}
-                            <div class="col-md-3 col-6 order-info">
-                                <h5>Pick Up</h5>
-                                <hr>
-                                <p>Date & Time: {{item.pickup}}</p>
-                                <!--<p>Time: 11:00 AM</p>-->
-                            </div>
-                            <div class="col-md-3 col-6 order-info">
-                                <h5>Drop</h5>
-                                <hr>
-                                <p>Date & Time: {{item.drop}}</p>
-                                <!--<p>Time:02:00 PM</p>-->
-                            </div>
-                            {% endif %}
+                        <div class="col-sm-12 col-md-6  remove-btn">
+                            <button class="btn btn-outline-danger btn-sm" onclick="location.href='{% url "cart:cart_remove" product.id %}'">Remove item</button>
+                        </div>
+                    </div>
 
-                            {% if item.category != 'ADDONS'  %}
-                            <div class="col-md-3 col-6 order-info">
-                                <h5>Duration</h5>
-                                <hr>
-                                {% if item.order_type == 'HR' %}
+                <!--CART ITEMS DISPLAY FOR NON-ADDONS PRODUCT-->
+                    {% if item.category != 'ADDONS'  %}
+                    <div class="row order-info">
+                        <div class="col-sm-12 col-lg-2 image-wrapper">
+                            <img src={{product.image.url}} alt="bikeRent">
+                        </div>
+                        <div class="col-lg-2 col-6 align ">
+                            <h5>Pick Up</h5>
+                            <hr>
+                            <p>{{item.pickup}}</p>
+                        </div>
+                        <div class="col-lg-2 col-6 align ">
+                            <h5>Drop</h5>
+                            <hr>
+                            <p>{{item.drop}}</p>
+                        </div>
+                        <div class="col-lg-2 col-6 align ">
+                            <h5>Duration</h5>
+                            <hr>
+                            {% if item.order_type == 'HR' %}
                                     <p>{{item.duration}} hours</p>
                                 {% elif item.order_type == 'DY' %}
                                     <p>{{item.duration}} days</p>
                                 {% elif item.order_type == 'WK' %}
                                     <p>{{item.duration}} weeks</p>
-                                {% endif %}
-                            </div>
-                            {% else %}
-                            <div class="col-md-3 col-6 order-info">
-                                <h5>Quantity</h5>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-2 col-6 align ">
+                            <h5>Price</h5>
+                            <hr>
+                            <p>Rs. {{item.price}}/-</p>
+                        </div>
+                        <div class="col-lg-2 col-6 align ">
+                            <h5>Total Price</h5>
+                            <hr>
+                            <h4>Rs. {{item.total_price}}/-</h4>
+                        </div>
+                    </div>
+                    <!--END OF NON ADDONS ITEMS DISPLAY-->
+
+                    <!--DISPLAY ADDONS ITEMS ADDED IN THE CART-->
+                    {% else %}
+                    <div class="row order-info">
+                        <div class="col-sm-12 col-lg-2 image-wrapper">
+                            <img src={{product.image.url}} alt="bikeRent">
+                        </div>
+                        <div class="col-lg-2 col-6 align ">
+                            <h5>Quantity</h5>
                                 <hr>
                                     <p>{{item.quantity}} qty</p>
                                 </hr>
-                            </div>
-                            {% endif %}
-
-                            <div class="col-md-3 col-6 order-info">
-                                <h5>Price</h5>
-                                <hr>
-                                <h4>Rs. {{item.price}}/-</h4>
-                            </div>
-                            <div class="col-md-3 col-6 order-info">
-                                <h5>Total Price</h5>
-                                <hr>
-                                <h4>Rs. {{item.total_price}}/-</h4>
-                            </div>
                         </div>
-
+                        <div class="col-lg-2 col-6 align ">
+                            <h5>Price</h5>
+                            <hr>
+                            <p>Rs. {{item.price}}/-</p>
+                        </div>
+                        <div class="col-lg-2 col-6 align ">
+                            <h5>Total Price</h5>
+                            <hr>
+                            <p>Rs. {{item.total_price}}/-</p>
+                        </div>
                     </div>
-                </div>
+                    <!--END OF ADDONS ITEMS ADDED IN THE CART DISPLAY-->
+                    {% endif %}
 
+
+                </div>
             </div>
-            {% endwith %}
+                {% endwith %}
             {% endfor %}
 
 
@@ -100,24 +113,15 @@
             <h5>Add Ons</h5>
             <hr class="blue-underline">
 
-
             <div class="container-fluid add-ons">
-
                 {% for item in addons %}
                 <div class="row addOn-item">
                     <div class="col-md-3 col-12">
                         <h5>{{item.name}}</h5>
-                        <!--<h5>Riding Gloves: </h5>-->
                     </div>
                     <div class="col-md-3 col-6">
                         <span>Rs: {{item.price_default}}</span>
                     </div>
-                    <!--<div class="col-md-3 col-6">-->
-                    <!--    <span>Quantity: </span>-->
-                    <!--    <input type="number" min="0" value="0">-->
-                    <!--</div>-->
-
-                    <div class="col-md-3 col-12 addCart-btn">
                     <form action="{% url "cart:cart_add_addons" item.id %}" method="post">
                         {{ cart_addons_form }}
                         {% csrf_token %}
@@ -125,19 +129,9 @@
                             Add
                         </button>
                     </form>
-                    </div>
-
-                    <!--<div class="col-md-3 col-12 addCart-btn">-->
-                    <!--    <button class="btn btn-success btn-sm">Add</button>-->
-                    <!--</div>-->
-
-
                 </div>
                 {% endfor %}
-
             </div>
-
-
             <hr class="fullDivider">
             <div class="total">
                 <h4>Amount Payable: Rs {{cart.get_total_price}}/-</h4>
@@ -145,7 +139,6 @@
             <hr class="fullDivider">
             <div class="row ">
                 <div class="col-12 col-md-6 otherOptions addV">
-                    <!--<input class="btn btn-primary" value="Add Vehicle" onClick="javascript:history.go(-1);">-->
                     <a href="{% url "rent" %}" class="btn btn-primary" id="addVehi">Add Vehicle</a>
                 </div>
                 <div class="col-12 col-md-6 otherOptions chkout">
@@ -154,4 +147,4 @@
             </div>
         </div>
 
-{% endblock %}
+ {% endblock %}

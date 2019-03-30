@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- META INFO
+    ============================================================================ -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Vehicle Select</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- CSS
+    ============================================================================ -->
+  <link rel="stylesheet" type="text/css" media="screen" href="../common.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/vehicle.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/vehicle-md.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="css/vehicle-sm.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400," rel="stylesheet" />
+</head>
+
+<body>
+  <div id="main-wrapper">
+    <!-- NAVIGATION BAR
+      ======================================================================= -->
+
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light ">
+      <a class="navbar-brand" href="../index.html">LOGO</a>
+      <button class="navbar-toggler" type="link" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../Rent/index.html">Vehicle Rent</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" role="button">Log In / Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary" href="../cart/index.html" role="button">Cart <span id="cart-badge"
+                class="badge badge-light">9</span><span class="sr-only">cart items</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- SECTION 1/ RENT INFORMATION
+    ====================================================================== -->
+    <div class="container-fluid" id="rentInfo">
+      <div class="container">
+        <div class="row info">
+          <div class="col-md-4 col-xs-12 ">
+            <h5 class="drop">BOOKING TYPE</h5>
+            <hr class="blue-underline bu" />
+            <div class="form-group">
+              <select class="form-control fields" id="exampleFormControlSelect1">
+                <option>Select type</option>
+                <option value="p/h">per hour</option>
+                <option value="p/d">per day</option>
+                <option value="p/w">per week</option>
+              </select>
+            </div>
+
+          </div>
+          <div class="col-md-4 col-xs-12 ">
+            <h5 class="pickup">PICKUP</h5>
+            <hr class="blue-underline bu" />
+            <div class="fields">
+              <!-- <p>Date:</p> -->
+              <input type="date" placeholder="dd-mm-yyyy" />
+            </div>
+
+          </div>
+          <div class="col-md-4 col-xs-12 ">
+            <h5 class="drop">DROP</h5>
+            <hr class="blue-underline bu" />
+            <div class="fields">
+              <!-- <p>Date:</p> -->
+              <input type="date" placeholder="dd-mm-yyyy" />
+            </div>
+
+          </div>
+          <div id="searchVehiBtn">
+            <button type="button" class="btn btn-primary">
+              Search Rides
+            </button>
+          </div>
+
+        </div>
+
+
+
+      </div>
+    </div>
+    <!-- FOOTER
+      ===================================================================== -->
+
+    <footer>
+      <div class="row">
+        <div class="col-md-4 col-xs-12 brandCol">
+          <h3>BRAND</h3>
+          <p>&copy; Copyright 2018 | website.com</p>
+        </div>
+        <div class="col-md-4 col-sm-12 optionsCol-1">
+          <p><a href="">Contact</a></p>
+          <p><a href="">Privacy policy</a></p>
+          <p><a href="">Terms & Conditions</a></p>
+          <p><a href="">About Us</a></p>
+        </div>
+        <div class="col-md-4 col-xs-12 optionsCol-2">
+          <p><a href="">Home</a></p>
+          <p><a href="">Services</a></p>
+          <p><a href="">Gallery</a></p>
+          <p><a href="">Vehicle Rent</a></p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <!-- SCRIPTS
+    ======================================================================= -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

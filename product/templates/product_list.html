@@ -3,9 +3,9 @@
   <!-- CSS
     ============================================================================ -->
   {% load staticfiles %}
-  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle.css'  %}" />
-  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-md.css'  %}" />
-  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-sm.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-v1.css'  %}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-md-v1.css'  %}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="{% static 'product/css/vehicle-sm-v1.css' %}" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400," rel="stylesheet" />
@@ -24,48 +24,12 @@
     ====================================================================== -->
     <div class="container-fluid" id="rentInfo">
 
-<form action="/search" method="post">
-
       <div class="container">
         <div class="row info">
-          <div class="col-md-6 col-xs-12 ">
-            <h5 class="pickup">PICKUP</h5>
-            <hr class="blue-underline" />
+          <div class="col-md-4 col-xs-12 ">
+            <h5 class="drop">BOOKING TYPE</h5>
+            <hr class="blue-underline bu" />
             <div class="fields">
-              <p>Date & Time:</p>
-              {% if pickup %}
-              <h5>{{ pickup }}</h4>
-              <!--<input type="text" value= {{ pickup }} />-->
-              {% endif %}
-              <!--<input type="datetime-local" placeholder="yyyy-mm-dd" />-->
-            </div>
-            <!--<div class="fields">-->
-            <!--  <p>Time:</p>-->
-            <!--  {{ product_search_form.pickup }}-->
-            <!--  <input type="time" placeholder="10:30 AM" />-->
-            <!--</div>-->
-          </div>
-          <div class="col-md-6 col-xs-12 ">
-            <h5 class="drop">DROP</h5>
-            <hr class="blue-underline" />
-            <div class="fields">
-              <p>Date & Time:</p>
-              {% if drop %}
-                <!--<input type="text" name="drop" required="True" id="id_drop" class="form-control  datetimepicker-input" value= {{ drop }} />-->
-              <h5>{{ drop }}</h4>
-              {% endif %}
-              <!--<input type="date" placeholder="yyyy-mm-dd" />-->
-            </div>
-            <!--<div class="fields">-->
-            <!--  <p>Time:</p>-->
-            <!--  <input type="time" placeholder="10:30 AM" />-->
-            <!--</div>-->
-          </div>
-        </div>
-        <div class="row info action">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Booking Type</label>
               {% if order_type == "HR" %}
                 <h5> Hourly </h5>
               {% endif %}
@@ -77,32 +41,36 @@
               {% if order_type == "WK" %}
                 <h5> Weekly </h5>
               {% endif %}
-              <!--<select class="form-control" id="exampleFormControlSelect1">-->
-              <!--  <option>Select your booking type</option>-->
-              <!--  <option value="p/h">per hour</option>-->
-              <!--  <option value="p/d">per day</option>-->
-              <!--  <option value="p/w">per week</option>-->
-              <!--</select>-->
             </div>
           </div>
-          <div class="col-12">
 
-{% csrf_token %}
-                <!--<button type="submit" value="SEARCH" class="btn btn-primary">-->
-                <!--  Search Rides-->
-                <!--</button>-->
-
-
-
+          <div class="col-md-4 col-xs-12 ">
+            <h5 class="pickup">PICKUP</h5>
+            <hr class="blue-underline bu" />
+            <div class="fields">
+              {% if pickup %}
+              <h5>{{ pickup }}</h4>
+              {% endif %}
+            </div>
           </div>
-        </div>
-        <hr />
 
-</form>
+          <div class="col-md-4 col-xs-12 ">
+            <h5 class="drop">DROP</h5>
+            <hr class="blue-underline bu" />
+            <div class="fields">
+              {% if drop %}
+              <h5>{{ drop }}</h4>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+
 
         <!-- Recommended vehicles
         ======================================================================================= -->
         <div id="recomendation">
+            <br>
           <h5>Vehicle Category</h5>
           <hr class="blue-underline" />
           <div class="row rideCards">

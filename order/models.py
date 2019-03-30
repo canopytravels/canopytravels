@@ -1,3 +1,4 @@
+import math
 from datetime import datetime
 from decimal import Decimal
 from django.db import models
@@ -75,9 +76,14 @@ class OrderItem(models.Model):
         if self.order_type == 'HR':
             duration = duration_diff.seconds/3600
         elif self.order_type == 'DY':
-            duration = duration_diff.days
+            if duration_diff.days == 0 and duration_diff.seconds != 0 and duration_diff.seconds/3600>15:
+                duration = duration_diff.days+1
+            elif duration_diff.days>0 and duration_diff.seconds>0:
+                duration = duration_diff.days+1
+            else:
+                duration = duration_diff.days
         elif self.order_type == 'WK':
-            duration = duration_diff.days/7
+            duration = math.ceil(duration_diff.days/7)
         else:
             duration = 1
         return duration
